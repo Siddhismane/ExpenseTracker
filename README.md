@@ -34,7 +34,7 @@ pip install virtualenv
 
 Setup Instructions
 # 1. Clone the repository
-git clone https://github.com/YourUsername/ExpenseTracker.git
+git clone https://github.com/Siddhismane/ExpenseTracker.git
 cd ExpenseTracker
 
 # 2. Create and activate virtual environment
