@@ -1,0 +1,112 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total Expenses</div>
+            <div class="card-body">
+                <h3 class="card-title">₹{{ total }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Number of Entries</div>
+            <div class="card-body">
+                <h3 class="card-title">{{ expenses|length }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Average Expense</div>
+            <div class="card-body">
+                <h3 class="card-title">₹{{ average }}</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Charts & Analysis -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card p-3 mb-3">
+            <h4 class="card-title">Expenses by Category</h4>
+            {% if chart %}
+            <img src="data:image/png;base64,{{ chart }}" alt="Pie Chart" class="img-fluid">
+            {% else %}
+            <p>No data to show for this month.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3 mb-3">
+            <h4 class="card-title">Analysis Table</h4>
+            {% if analysis %}
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Category</th>
+                            <th>Total (₹)</th>
+                            <th>Percentage (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in analysis %}
+                        <tr>
+                            <td>{{ item.category }}</td>
+                            <td>{{ item.total }}</td>
+                            <td>{{ item.percentage }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>No data available for analysis.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Expense Details Table -->
+<div class="card p-3">
+    <h4 class="card-title mb-3">Expense Details</h4>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td>{{ expense.date }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No expenses this month.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

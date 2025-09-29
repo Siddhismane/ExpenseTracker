@@ -1,0 +1,39 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}All Expenses{% endblock %}
+
+{% block content %}
+<h2>All Expenses</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.category }}</td>
+            <td>{{ expense.description }}</td>
+            <td>{{ expense.date }}</td>
+            <td>
+                <a href="{% url 'edit_expense' expense.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <form method="POST" action="{% url 'delete_expense' expense.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No expenses yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
